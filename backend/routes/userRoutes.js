@@ -6,7 +6,6 @@ const authenticateJWT = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.post('/', registerUser);
-router.post('/verification', verifyOTP);
 router.post('/login', loginUser);
 router.get('/:user_id/balance', authenticateJWT, getBalance);
 
