@@ -1,10 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { users, balances } = require('../models/dataStore');  // ✅ Import shared storage
+const { users, balances } = require('../models/dataStore'); 
 
-// ✅ Register a new user (no OTP required)
 exports.registerUser = async (req, res) => {
-    const { email, password, phone, balance } = req.body;  // ✅ Accept `balance` as optional
+    const { email, password, phone, balance } = req.body;  
 
     if (users.some(user => user.email === email)) {
         return res.status(400).json({ message: "User already exists" });
@@ -20,7 +19,6 @@ exports.registerUser = async (req, res) => {
 
     users.push(newUser);
 
-    // ✅ Assign user balance: Use provided amount or generate a random balance
     balances[newUser.id] = balance !== undefined ? balance : Math.floor(Math.random() * 10000) + 1000;
 
     res.status(201).json({ 
@@ -29,7 +27,6 @@ exports.registerUser = async (req, res) => {
     });
 };
 
-// ✅ User login (returns JWT)
 exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     const user = users.find(u => u.email === email);
@@ -42,13 +39,12 @@ exports.loginUser = async (req, res) => {
     res.json({ token });
 };
 
-// ✅ Get user balance (Protected)
 exports.getBalance = (req, res) => {
     const userId = parseInt(req.params.user_id);
-    
-    if (!balances[userId]) {
-        return res.status(404).json({ message: "Balance not found for this user" });
+
+    if (userId <= 0 || userId > users.length) {
+        return res.status(400).json({ message: "Invalid user ID" });
     }
 
-    res.json({ balance: balances[userId] });
+    res.json({ balance: balances[userId] || 0 });
 };
