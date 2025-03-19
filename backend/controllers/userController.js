@@ -40,11 +40,7 @@ exports.loginUser = async (req, res) => {
 };
 
 exports.getBalance = (req, res) => {
-    const userId = parseInt(req.params.user_id);
-
-    if (userId <= 0 || userId > users.length) {
-        return res.status(400).json({ message: "Invalid user ID" });
-    }
+    const userId = req.user.id;
 
     res.json({ balance: balances[userId] || 0 });
 };

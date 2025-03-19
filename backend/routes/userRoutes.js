@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post('/', registerUser);
 router.post('/login', loginUser);
-router.get('/:user_id/balance', authenticateJWT, getBalance);
+router.get('/balance', authenticateJWT, getBalance);
 
 module.exports = router;
