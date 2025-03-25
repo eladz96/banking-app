@@ -2,6 +2,7 @@
 const express = require('express');
 const { registerUser, verifyOTP, loginUser, getBalance } = require('../controllers/userController');
 const authenticateJWT = require('../middleware/authMiddleware');
+const { checkUserExists } = require('../middleware/userValidation');
 
 const router = express.Router();
 
