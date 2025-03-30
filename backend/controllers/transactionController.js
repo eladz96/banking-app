@@ -45,11 +45,11 @@ exports.getTransactions = async (req, res) => {
     const userEmail = req.user.email;
 
     try {
-        const txns = await Transaction.find({
+        const tAction = await Transaction.find({
             $or: [{ sender: userEmail }, { recipient: userEmail }]
         }).sort({ timestamp: -1 });
 
-        res.json(txns);
+        res.json(tAction);
     } catch (err) {
         res.status(500).json({ message: "Failed to get transactions", error: err.message });
     }
