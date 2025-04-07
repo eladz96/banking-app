@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 function Signup() {
-  const [form, setForm] = useState({ email: '', password: '', phone: '', balance: '' });
+  const [form, setForm] = useState({ name: '', email: '', password: '', phone: '', balance: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ function Signup() {
 
     // Convert balance to number or undefined
     const payload = {
+      name: form.name,
       email: form.email,
       password: form.password,
       phone: form.phone,
@@ -36,6 +37,7 @@ function Signup() {
     <div style={{ maxWidth: 400, margin: 'auto' }}>
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
+        <input name="name" type="text" placeholder="Full Name" onChange={handleChange} required /><br />
         <input name="email" type="email" placeholder="Email" onChange={handleChange} required /><br />
         <input name="password" type="password" placeholder="Password" onChange={handleChange} required /><br />
         <input name="phone" type="text" placeholder="Phone" onChange={handleChange} required /><br />

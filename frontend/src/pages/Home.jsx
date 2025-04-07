@@ -9,6 +9,18 @@ function Home() {
   const navigate = useNavigate();
 
   const token = sessionStorage.getItem('token');
+  let userName = '';
+  let userEmail = '';
+
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      userName = payload.name;
+      userEmail = payload.email;
+    } catch (err) {
+      console.error('Invalid token');
+    }
+  }
 
   useEffect(() => {
     if (!token) {
@@ -38,7 +50,7 @@ function Home() {
 
   return (
     <div style={{ maxWidth: 600, margin: 'auto' }}>
-      <h2>Welcome</h2>
+      <h2>Welcome, {userName}</h2>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -51,7 +63,7 @@ function Home() {
         <ul>
           {transactions.map((txn) => (
             <li key={txn._id}>
-              <strong>{txn.sender === JSON.parse(atob(token.split('.')[1])).email ? 'Sent to' : 'Received from'}</strong> {txn.recipient} — ${txn.amount}
+              <strong>{txn.sender === userEmail ? 'Sent to' : 'Received from'}</strong> {txn.recipient} — ${txn.amount}
               <br />
               <small>{new Date(txn.timestamp).toLocaleString()}</small>
             </li>
