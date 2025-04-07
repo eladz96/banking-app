@@ -17,7 +17,7 @@ function Login() {
 
     try {
       const res = await axios.post('http://localhost:3000/users/login', form);
-      sessionStorage.setItem('token', res.data.token); // ✅ Save JWT
+      sessionStorage.setItem('token', res.data.token); 
       navigate('/home');
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
